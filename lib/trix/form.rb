@@ -34,10 +34,9 @@ module ActionView
 
         def render
           options = @options.stringify_keys
+          options['value'] = options.fetch('value') { value_before_type_cast(object) }
           add_default_name_and_id(options)
-          options['input'] ||= dom_id(object, [options['id'], :trix_input].compact.join('_'))
-          value = options['value'] || value_before_type_cast(object)
-          trix_editor_tag(options.delete('name'), value, options)
+          trix_editor_tag(options.delete('name'), options['value'], options)
         end
       end
     end
